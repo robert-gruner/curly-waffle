@@ -37,6 +37,7 @@ class NoteDetailsActivityListener(
     }
 
     private fun deleteNoteContent() {
-        TODO("Not yet implemented")
+        activity.deleteFile(fileName)
+        textInput.text.clear()
     }
 }
