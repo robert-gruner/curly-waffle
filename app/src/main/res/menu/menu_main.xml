@@ -8,4 +8,10 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_logout"
+        android:icon="@drawable/baseline_exit_to_app_24"
+        android:orderInCategory="100"
+        android:title="@string/action_logout"
+        app:showAsAction="ifRoom" />
 </menu>

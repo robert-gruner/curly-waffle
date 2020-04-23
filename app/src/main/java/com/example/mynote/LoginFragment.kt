@@ -35,7 +35,16 @@ class LoginFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (UserController.isLoggedIn) {
+            findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
+        }
+    }
+
     private fun credentialsValid(name: String, password: String): Boolean {
+        UserController.isLoggedIn = true
         return true // TODO: Real implementation
     }
 }
