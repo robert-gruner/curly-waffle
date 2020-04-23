@@ -13,11 +13,17 @@ class NoteDetailsActivityListener(
     private var fileName: String = activity.getString(R.string.noteFileName)
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        when(item?.itemId) {
-            R.id.saveNote -> saveNoteContent()
-            R.id.deleteNote -> deleteNoteContent()
+        return when(item?.itemId) {
+            R.id.saveNote -> {
+                saveNoteContent()
+                true
+            }
+            R.id.deleteNote -> {
+                deleteNoteContent()
+                true
+            }
+            else -> false
         }
-        return true
     }
 
     fun readNoteContent(): String {

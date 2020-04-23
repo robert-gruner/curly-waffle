@@ -2,7 +2,6 @@ package com.example.mynote
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -26,8 +25,11 @@ class NoteDetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // TODO : Use super für back button
-        Log.d(NoteDetailsActivity::class.java.simpleName, item.itemId.toString())
-        return noteDetailsActivityListener.onMenuItemClick(item)
+        val isHandled = noteDetailsActivityListener.onMenuItemClick(item)
+        return if(!isHandled) {
+            return super.onOptionsItemSelected(item)
+        } else {
+            false
+        }
     }
 }
