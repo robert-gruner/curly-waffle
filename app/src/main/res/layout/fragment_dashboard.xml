@@ -5,24 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DashboardFragment">
-
-    <Button
-        android:id="@+id/button_previous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/previous"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button_takeANote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take a note"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_previous" />
 </androidx.constraintlayout.widget.ConstraintLayout>

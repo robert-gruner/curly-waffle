@@ -2,11 +2,10 @@ package com.example.mynote
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.navigation.findNavController
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,11 +15,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        initFab()
+    }
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+    override fun onResume() {
+        super.onResume()
+        initFab()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -38,7 +38,19 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
+            R.id.action_logout -> {
+                UserController.isLoggedIn = false
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_DashboardFragment_to_LoginFragment)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun initFab() {
+        fab.setOnClickListener { view ->
+            findNavController(R.id.nav_host_fragment).navigate(R.id.noteDetailActivity)
+        }
+        UserController.registerHideableElement(fab)
     }
 }

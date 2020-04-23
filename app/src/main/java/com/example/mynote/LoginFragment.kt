@@ -30,6 +30,7 @@ class LoginFragment : Fragment() {
             val inputPassword = editInputPassword.text.toString()
 
             if (credentialsValid(inputName, inputPassword)) {
+                UserController.isLoggedIn = true
                 findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
             }
         }
@@ -44,7 +45,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun credentialsValid(name: String, password: String): Boolean {
-        UserController.isLoggedIn = true
         return true // TODO: Real implementation
     }
 }
