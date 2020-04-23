@@ -26,7 +26,7 @@
     </fragment>
     <activity
         android:id="@+id/noteDetailActivity"
-        android:name="com.example.mynote.NoteDetailActivity"
+        android:name="com.example.mynote.NoteDetailsActivity"
         android:label="activity_note_detail"
-        tools:layout="@layout/activity_note_detail" />
+        tools:layout="@layout/activity_note_details" />
 </navigation>

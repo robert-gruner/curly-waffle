@@ -11,4 +11,6 @@
     <string name="settings_label">Settings</string>
     <string name="details_label">Details</string>
     <string name="action_logout">Logout</string>
+
+    <string name="noteFileName">my_notes.txt</string>
 </resources>
