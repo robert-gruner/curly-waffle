@@ -5,6 +5,7 @@
     <string name="login_fragment_label">Login</string>
     <string name="dashboard_fragment_label">Dashboard</string>
     <string name="next">Next</string>
+    <string name="loginAction">Login</string>
 
     <string name="hotlineNumber">tel:12313124</string>
     <string name="settings_label">Settings</string>

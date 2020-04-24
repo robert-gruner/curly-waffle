@@ -12,7 +12,8 @@
         android:id="@+id/inputUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username">
+        android:hint="Username"
+        android:padding="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editInputUsername"
@@ -25,7 +26,8 @@
         android:id="@+id/inputPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password">
+        android:hint="Password"
+        android:padding="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editInputPassword"
@@ -36,7 +38,8 @@
 
     <Button
         android:id="@+id/button_login"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/next" />
+        android:layout_marginTop="8dp"
+        android:text="@string/loginAction" />
 </androidx.appcompat.widget.LinearLayoutCompat>
