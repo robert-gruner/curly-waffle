@@ -3,7 +3,9 @@ package com.example.mynote
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.widget.EditText
@@ -11,7 +13,11 @@ import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
+import androidx.core.content.FileProvider
 import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NoteDetailsActivityListener(
     val activity: AppCompatActivity,
@@ -19,6 +25,7 @@ class NoteDetailsActivityListener(
 ) : MenuItem.OnMenuItemClickListener,
     DialogInterface.OnClickListener {
     private var fileName: String = activity.getString(R.string.noteFileName)
+    private lateinit var currentPhotoPath: String
 
     companion object {
         val REQUEST_IMAGE_CAPTURE = 1
@@ -44,8 +51,29 @@ class NoteDetailsActivityListener(
         }
     }
 
-    fun setImage(image: Bitmap) {
-        activity.findViewById<ImageView>(R.id.attachedNotePhoto).setImageBitmap(image)
+    fun setImage() {
+        val imageView = activity.findViewById<ImageView>(R.id.attachedNotePhoto)
+        // Get the dimensions of the View
+        val targetW: Int = imageView.width
+        val targetH: Int = imageView.height
+
+        val bmOptions = BitmapFactory.Options().apply {
+            // Get the dimensions of the bitmap
+            inJustDecodeBounds = true
+
+            val photoW: Int = outWidth
+            val photoH: Int = outHeight
+
+            // Determine how much to scale down the image
+            val scaleFactor: Int = Math.min(photoW / targetW, photoH / targetH)
+
+            // Decode the image file into a Bitmap sized to fill the View
+            inJustDecodeBounds = false
+            inSampleSize = scaleFactor
+        }
+        BitmapFactory.decodeFile(currentPhotoPath, bmOptions)?.also { bitmap ->
+            imageView.setImageBitmap(bitmap)
+        }
     }
 
     fun readNoteContent(): String {
@@ -65,7 +93,23 @@ class NoteDetailsActivityListener(
     private fun takePicture() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(activity.packageManager)?.also {
-                activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        activity,
+                        "com.example.mynote",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    activity. startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
             }
         }
     }
@@ -105,5 +149,20 @@ class NoteDetailsActivityListener(
     private fun deleteNoteContent() {
         activity.deleteFile(fileName)
         textInput.text.clear()
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
     }
 }

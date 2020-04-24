@@ -33,8 +33,7 @@ class NoteDetailsActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == NoteDetailsActivityListener.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-            noteDetailsActivityListener.setImage(imageBitmap)
+            noteDetailsActivityListener.setImage()
         }
     }
 }
