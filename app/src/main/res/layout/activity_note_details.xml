@@ -11,6 +11,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:padding="8dp"
         app:hintEnabled="false">
 
@@ -18,8 +19,26 @@
             android:id="@+id/noteInput"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="clip_horizontal|clip_vertical"
             android:hint="Input your note..."
             android:textAlignment="gravity" />
+
     </com.google.android.material.textfield.TextInputLayout>
+
+    <FrameLayout
+        android:id="@+id/photoContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6">
+
+        <ImageView
+            android:id="@+id/attachedNotePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="Shows the photo which is attached to the note"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+    </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

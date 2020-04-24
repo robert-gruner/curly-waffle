@@ -12,6 +12,13 @@
         android:icon="@drawable/baseline_share_24"
         android:title="Share"
         app:showAsAction="ifRoom" />
+
+    <!-- TODO: Replace icon -->
+    <item
+        android:id="@+id/attachPhoto"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Attach photo"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/deleteNote"
         android:icon="@drawable/baseline_delete_forever_24"
