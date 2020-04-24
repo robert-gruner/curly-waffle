@@ -25,11 +25,6 @@ class NoteDetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val isHandled = noteDetailsActivityListener.onMenuItemClick(item)
-        return if(!isHandled) {
-            return super.onOptionsItemSelected(item)
-        } else {
-            false
-        }
+        return noteDetailsActivityListener.onMenuItemClick(item)
     }
 }

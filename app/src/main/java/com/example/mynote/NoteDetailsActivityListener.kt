@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NavUtils
 import java.io.File
 
 class NoteDetailsActivityListener(
@@ -15,17 +16,18 @@ class NoteDetailsActivityListener(
     private var fileName: String = activity.getString(R.string.noteFileName)
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        return when(item?.itemId) {
+        when(item?.itemId) {
             R.id.saveNote -> {
                 saveNoteContent()
-                true
             }
             R.id.deleteNote -> {
                 showDeletionDialog()
-                true
             }
-            else -> false
+            else -> {
+                NavUtils.navigateUpFromSameTask(activity)
+            }
         }
+        return true
     }
 
     fun readNoteContent(): String {
