@@ -1,15 +1,17 @@
 package com.example.mynote
 
 import android.content.Context
+import android.content.DialogInterface
 import android.view.MenuItem
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 
 class NoteDetailsActivityListener(
     val activity: AppCompatActivity,
     val textInput: EditText
-) : MenuItem.OnMenuItemClickListener {
+) : MenuItem.OnMenuItemClickListener, DialogInterface.OnClickListener {
     private var fileName: String = activity.getString(R.string.noteFileName)
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -19,7 +21,7 @@ class NoteDetailsActivityListener(
                 true
             }
             R.id.deleteNote -> {
-                deleteNoteContent()
+                showDeletionDialog()
                 true
             }
             else -> false
@@ -42,8 +44,26 @@ class NoteDetailsActivityListener(
         }
     }
 
+    private fun showDeletionDialog() {
+        if (textInput.text.isEmpty()) {
+            return
+        }
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.deleteHint)
+            .setMessage(R.string.confirmDeletion)
+            .setPositiveButton(android.R.string.yes, this)
+            .setNegativeButton(android.R.string.no, this)
+            .show()
+    }
+
     private fun deleteNoteContent() {
         activity.deleteFile(fileName)
         textInput.text.clear()
+    }
+
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+        when(which) {
+            DialogInterface.BUTTON_POSITIVE -> deleteNoteContent()
+        }
     }
 }

@@ -12,4 +12,6 @@
     <string name="action_logout">Logout</string>
 
     <string name="noteFileName">my_notes.txt</string>
+    <string name="deleteHint">Delete note</string>
+    <string name="confirmDeletion">Do you really want to delete the note?</string>
 </resources>
