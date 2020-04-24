@@ -20,5 +20,5 @@
     <string name="hideLocation">Hide my location</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
-
+    <string name="altitude">Altitude</string>
 </resources>

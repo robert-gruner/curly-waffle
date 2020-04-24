@@ -33,25 +33,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/latitudeLabel"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/latitude"
-                android:textAlignment="textEnd" />
+                style="@style/gpsDataStyle"
+                android:layout_gravity="center_vertical"
+                android:text="@string/latitude" />
 
             <TextView
                 android:id="@+id/latitudeValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="TextView"
-                android:textAlignment="center" />
+                style="@style/gpsDataValueStyle"
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,20 +57,41 @@
 
             <TextView
                 android:id="@+id/longitudeLabel"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/longitude"
-                android:textAlignment="textEnd" />
+                style="@style/gpsDataStyle"
+                android:layout_gravity="center_vertical"
+                android:text="@string/longitude" />
 
             <TextView
                 android:id="@+id/longitudeValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="TextView"
-                android:textAlignment="center" />
+                style="@style/gpsDataValueStyle"
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/altitudeLabel"
+                style="@style/gpsDataStyle"
+                android:layout_gravity="center_vertical"
+                android:text="@string/altitude"/>
+
+            <TextView
+                android:id="@+id/altitudeValue"
+                style="@style/gpsDataValueStyle"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="?android:attr/listDivider" />
 
     </LinearLayout>
 

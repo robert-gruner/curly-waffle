@@ -30,10 +30,13 @@ class SettingsActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (requestCode == listener.CALL_PERMISSION_REQUEST_CODE &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) {
-            listener.callHotline()
+        when(requestCode) {
+            SettingsActivityListener.CALL_PERMISSION_REQUEST_CODE -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) listener.callHotline()
+            }
+            SettingsActivityListener.FINE_LOCATION_REQUEST_CODE -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) listener.requestGps()
+            }
         }
     }
 }
