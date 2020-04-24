@@ -1,7 +1,6 @@
 package com.example.mynote
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -20,12 +19,14 @@ class LoginFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.invalidateOptionsMenu()
 
         view.findViewById<Button>(R.id.button_login).setOnClickListener {
             val inputName = editInputUsername.text.toString()
@@ -46,9 +47,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    // FIXME: This is not working
     override fun onPrepareOptionsMenu(menu: Menu) {
-        Log.d(LoginFragment::class.java.simpleName, "hellooooo")
         if (!UserController.isLoggedIn) {
             menu.findItem(R.id.action_logout).isVisible = false;
         }
