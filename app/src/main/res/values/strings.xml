@@ -14,4 +14,6 @@
     <string name="noteFileName">my_notes.txt</string>
     <string name="deleteHint">Delete note</string>
     <string name="confirmDeletion">Do you really want to delete the note?</string>
+
+    <string name="homepageLink">www.heise.de</string>
 </resources>

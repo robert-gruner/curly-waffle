@@ -1,47 +1,36 @@
 package com.example.mynote
 
-import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.core.app.ActivityCompat
+import android.widget.Button
+import android.widget.TextView
 
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var callButton: Button
+    private lateinit var homepageLink: TextView
+    private lateinit var listener: SettingsActivityListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-    }
 
-    fun clickHandler(v: View) {
-        when (v.id) {
-            R.id.btnCallHotline -> callHotline()
-        }
+        callButton = findViewById(R.id.btnCallHotline)
+        homepageLink = findViewById(R.id.homepageLink)
+        listener = SettingsActivityListener(this)
+        callButton.setOnClickListener(listener)
+        homepageLink.setOnClickListener(listener)
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
+        requestCode: Int, // Selbst definiert, siehe Konstante
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-       if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-           callHotline()
-       }
-    }
-
-    private fun callHotline() {
-        val hotlineNumber = getString(R.string.hotlineNumber)
-        val intent = Intent(Intent.ACTION_CALL, Uri.parse(hotlineNumber))
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+        if (requestCode == listener.CALL_PERMISSION_REQUEST_CODE &&
+            grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {
-            val permissions = arrayOf(Manifest.permission.CALL_PHONE)
-            requestPermissions(permissions, 1)
-        } else {
-            startActivity(intent)
+            listener.callHotline()
         }
     }
 }
