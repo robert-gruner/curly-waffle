@@ -2,6 +2,7 @@ package com.example.mynote
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
@@ -23,12 +24,16 @@ class NoteDetailsActivityListener(
             R.id.deleteNote -> {
                 showDeletionDialog()
             }
+            R.id.shareNote -> {
+                startShareNote()
+            }
             else -> {
                 NavUtils.navigateUpFromSameTask(activity)
             }
         }
         return true
     }
+
 
     fun readNoteContent(): String {
         val file = File(activity.filesDir, fileName)
@@ -38,6 +43,20 @@ class NoteDetailsActivityListener(
             readStream.close()
             return content
         } else ""
+    }
+
+    private fun startShareNote() {
+        if (textInput.text.isEmpty()) {
+            return
+        }
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, textInput.text)
+        }
+        activity.startActivity(
+            Intent.createChooser(intent, null) // OS zeigt dann den Auswahldialog an
+        )
     }
 
     private fun saveNoteContent() {

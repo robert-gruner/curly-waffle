@@ -8,6 +8,11 @@
         android:title="Save"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/shareNote"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="Share"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/deleteNote"
         android:icon="@drawable/baseline_delete_forever_24"
         android:title="Delete"
