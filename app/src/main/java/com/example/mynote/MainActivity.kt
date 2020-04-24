@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_logout -> {
-                UserController.isLoggedIn = false
+                LoginController.isLoggedIn = false
                 findNavController(R.id.nav_host_fragment).navigate(R.id.action_DashboardFragment_to_LoginFragment)
                 true
             }
@@ -51,6 +51,6 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             findNavController(R.id.nav_host_fragment).navigate(R.id.noteDetailActivity)
         }
-        UserController.registerHideableElement(fab)
+        LoginController.registerHideableElement(fab)
     }
 }

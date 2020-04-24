@@ -1,9 +1,8 @@
 package com.example.mynote
 
-import android.util.Log
 import android.view.View
 
-object UserController {
+object LoginController {
     private val hideableElements = mutableListOf<View>()
     var isLoggedIn = false
         set(value) {
@@ -14,6 +13,14 @@ object UserController {
     fun registerHideableElement(view: View) {
         hideableElements.add(view)
         updateHideableElements()
+    }
+
+    fun checkCredentials(name: String, password: String): Boolean {
+        return arrayOf(name, password)
+            .none { it.isEmpty() }
+            .apply {
+                isLoggedIn = this
+            }
     }
 
     private fun updateHideableElements() {

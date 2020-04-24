@@ -32,8 +32,7 @@ class LoginFragment : Fragment() {
             val inputName = editInputUsername.text.toString()
             val inputPassword = editInputPassword.text.toString()
 
-            if (credentialsValid(inputName, inputPassword)) {
-                UserController.isLoggedIn = true
+            if (LoginController.checkCredentials(inputName, inputPassword)) {
                 findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
             }
         }
@@ -42,18 +41,14 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if (UserController.isLoggedIn) {
+        if (LoginController.isLoggedIn) {
             findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
         }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        if (!UserController.isLoggedIn) {
+        if (!LoginController.isLoggedIn) {
             menu.findItem(R.id.action_logout).isVisible = false;
         }
-    }
-
-    private fun credentialsValid(name: String, password: String): Boolean {
-        return true // TODO: Real implementation
     }
 }
