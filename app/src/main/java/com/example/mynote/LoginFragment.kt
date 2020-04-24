@@ -1,8 +1,10 @@
 package com.example.mynote
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -41,6 +43,14 @@ class LoginFragment : Fragment() {
 
         if (UserController.isLoggedIn) {
             findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
+        }
+    }
+
+    // FIXME: This is not working
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        Log.d(LoginFragment::class.java.simpleName, "hellooooo")
+        if (!UserController.isLoggedIn) {
+            menu.findItem(R.id.action_logout).isVisible = false;
         }
     }
 

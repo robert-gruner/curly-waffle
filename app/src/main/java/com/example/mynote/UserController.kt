@@ -17,7 +17,6 @@ object UserController {
     }
 
     private fun updateHideableElements() {
-        Log.d(UserController::class.java.simpleName, hideableElements.size.toString())
         hideableElements.forEach {
             if (isLoggedIn) {
                 it.visibility = View.VISIBLE
