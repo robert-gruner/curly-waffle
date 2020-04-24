@@ -16,4 +16,9 @@
     <string name="confirmDeletion">Do you really want to delete the note?</string>
 
     <string name="homepageLink">www.heise.de</string>
+    <string name="showLocation">Show my location</string>
+    <string name="hideLocation">Hide my location</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+
 </resources>

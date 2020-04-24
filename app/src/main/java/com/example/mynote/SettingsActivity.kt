@@ -8,6 +8,7 @@ import android.widget.TextView
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var callButton: Button
+    private lateinit var locationButton: Button
     private lateinit var homepageLink: TextView
     private lateinit var listener: SettingsActivityListener
 
@@ -15,11 +16,13 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        callButton = findViewById(R.id.btnCallHotline)
+        callButton = findViewById(R.id.callHotline)
+        locationButton = findViewById(R.id.showLocation)
         homepageLink = findViewById(R.id.homepageLink)
         listener = SettingsActivityListener(this)
         callButton.setOnClickListener(listener)
         homepageLink.setOnClickListener(listener)
+        locationButton.setOnClickListener(listener)
     }
 
     override fun onRequestPermissionsResult(
