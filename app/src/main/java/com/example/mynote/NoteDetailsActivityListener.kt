@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageView
@@ -108,7 +109,7 @@ class NoteDetailsActivityListener(
                         it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    activity. startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                 }
             }
         }
@@ -153,7 +154,6 @@ class NoteDetailsActivityListener(
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
@@ -162,7 +162,20 @@ class NoteDetailsActivityListener(
             storageDir /* directory */
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
+            Log.d(NoteDetailsActivityListener::class.java.simpleName, "Setting photo path $absolutePath")
             currentPhotoPath = absolutePath
         }
+    }
+
+    fun checkForImage() {
+        val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        storageDir?.listFiles().let {
+            if (it?.isNotEmpty()!!) {
+                Log.d(NoteDetailsActivityListener::class.java.simpleName, "Setting photo path ${it?.last()?.path}")
+                currentPhotoPath = it.last()?.path.toString()
+                setImage()
+            }
+        }
+
     }
 }

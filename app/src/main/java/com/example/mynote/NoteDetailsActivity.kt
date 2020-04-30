@@ -21,6 +21,11 @@ class NoteDetailsActivity : AppCompatActivity() {
         editText.setText(noteDetailsActivityListener.readNoteContent())
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        noteDetailsActivityListener.checkForImage()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_note_details, menu)
         return true
