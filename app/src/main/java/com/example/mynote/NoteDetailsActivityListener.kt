@@ -121,7 +121,7 @@ class NoteDetailsActivityListener(
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, textInput.text)
+            putExtra(Intent.EXTRA_TEXT, textInput.text.toString())
         }
         activity.startActivity(
             Intent.createChooser(intent, null) // OS zeigt dann den Auswahldialog an
