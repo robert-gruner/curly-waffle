@@ -1,4 +1,4 @@
-package com.example.mynote
+package com.example.mynote.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,22 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.mynote.R
 import kotlinx.android.synthetic.main.fragment_login.*
+
+fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
+    observe(lifecycleOwner, object : Observer<T> {
+        override fun onChanged(t: T?) {
+            observer.onChanged(t)
+            removeObserver(this)
+        }
+    })
+}
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -27,6 +41,14 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.invalidateOptionsMenu()
+        val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        LoginController.registerModel(userViewModel)
+
+        userViewModel.getAll.observeOnce(viewLifecycleOwner, Observer {
+            if (LoginController.checkUsers(it)) {
+                findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
+            }
+        })
 
         view.findViewById<Button>(R.id.button_login).setOnClickListener {
             val inputName = editInputUsername.text.toString()
@@ -35,14 +57,6 @@ class LoginFragment : Fragment() {
             if (LoginController.checkCredentials(inputName, inputPassword)) {
                 findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
             }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (LoginController.isLoggedIn) {
-            findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
         }
     }
 

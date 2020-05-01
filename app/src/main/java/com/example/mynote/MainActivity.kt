@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import androidx.navigation.findNavController
+import com.example.mynote.login.LoginController
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_logout -> {
-                LoginController.isLoggedIn = false
+                LoginController.logoutCurrent()
                 findNavController(R.id.nav_host_fragment).navigate(R.id.action_DashboardFragment_to_LoginFragment)
                 true
             }
