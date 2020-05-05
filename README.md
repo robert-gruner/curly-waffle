@@ -2,11 +2,12 @@
 ## Features
 * Persistent Login
 * Taking a note incl. Photo
-    * Save/Delete note wording
+* Deleting the note incl. Photo
 * Share Note wording
 * Location tracking
 * Example call
 * Example browser link
 
 ## TODO
-* Make photos deletable
+* Ensure note is user-specific --> Logged in user should only see his note/photo
+* Explore unit testing
