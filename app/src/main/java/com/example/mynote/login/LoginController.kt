@@ -7,6 +7,10 @@ object LoginController {
     private lateinit var userViewModel: UserViewModel
     private lateinit var currentUser: User
 
+    val currentUserName: String
+        get() {
+            return currentUser.name.toString()
+        }
     var isLoggedIn = false
         set(value) {
             field = value

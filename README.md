@@ -9,5 +9,4 @@
 * Example browser link
 
 ## TODO
-* Ensure note is user-specific --> Logged in user should only see his note/photo
 * Explore unit testing

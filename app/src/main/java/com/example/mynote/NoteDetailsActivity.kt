@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import com.example.mynote.login.LoginController
 import kotlinx.android.synthetic.main.activity_note_details.*
 
 class NoteDetailsActivity : AppCompatActivity() {
@@ -18,7 +19,7 @@ class NoteDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_note_details)
 
         editText = findViewById(R.id.noteInput)
-        noteDetailsActivityListener = NoteDetailsActivityListener(this, editText)
+        noteDetailsActivityListener = NoteDetailsActivityListener(this, editText, LoginController.currentUserName)
         deleteNotePhoto.setOnClickListener(noteDetailsActivityListener)
         editText.setText(noteDetailsActivityListener.readNoteContent())
     }

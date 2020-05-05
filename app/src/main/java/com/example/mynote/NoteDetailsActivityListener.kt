@@ -1,6 +1,5 @@
 package com.example.mynote
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -10,19 +9,24 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
 import androidx.core.content.FileProvider
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class NoteDetailsActivityListener(
     val activity: AppCompatActivity,
-    val textInput: EditText
+    val textInput: EditText,
+    val userName: String
 ) : MenuItem.OnMenuItemClickListener,
     DialogInterface.OnClickListener,
     View.OnClickListener {
@@ -84,9 +88,9 @@ class NoteDetailsActivityListener(
     }
 
     fun checkForImage() {
-        val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? = getUserExternalDir()
         storageDir?.listFiles().let {
-            if (it?.isNotEmpty()!!) {
+            if (it?.isNotEmpty() == true) {
                 Log.d(NoteDetailsActivityListener::class.java.simpleName, "Setting photo path ${it?.last()?.path}")
                 currentPhotoPath = it.last()?.path.toString()
                 setImage()
@@ -97,12 +101,17 @@ class NoteDetailsActivityListener(
     }
 
     fun readNoteContent(): String {
-        val file = File(activity.filesDir, fileName)
-        return if (file.exists()) {
-            val readStream = activity.openFileInput(fileName).bufferedReader(Charsets.UTF_8)
-            val content = readStream.readText()
-            readStream.close()
-            return content
+        val dir = getUserFilesDir()
+        return if (dir.exists()) {
+            val fileInputStream =
+                FileInputStream(File(dir, fileName))
+
+            fileInputStream.use {
+                val readStream = it.bufferedReader(Charsets.UTF_8)
+                val content = readStream.readText()
+                it.close()
+                return content
+            }
         } else ""
     }
 
@@ -159,8 +168,15 @@ class NoteDetailsActivityListener(
     }
 
     private fun saveNoteContent() {
-        activity.openFileOutput(fileName, Context.MODE_PRIVATE).use {
-            it?.write(textInput.text.toString().toByteArray(Charsets.UTF_8))
+        val dir = getUserFilesDir()
+        dir.mkdirs()
+
+        val fileOutputStream =
+            FileOutputStream(File(dir, fileName))
+
+        fileOutputStream.use {
+            it.write(textInput.text.toString().toByteArray(Charsets.UTF_8))
+            it.close()
         }
     }
 
@@ -177,14 +193,23 @@ class NoteDetailsActivityListener(
     }
 
     private fun deleteNoteContent() {
-        activity.deleteFile(fileName)
+        getUserFilesDir().deleteRecursively()
         textInput.text.clear()
+    }
+
+    private fun getUserFilesDir(): File {
+        return File("${activity.filesDir}", userName)
+    }
+
+    private fun getUserExternalDir(): File {
+        return File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES), userName)
     }
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File = getUserExternalDir()
+        storageDir.mkdirs()
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
