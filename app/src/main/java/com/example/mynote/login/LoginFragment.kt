@@ -33,14 +33,6 @@ class LoginFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true);
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.invalidateOptionsMenu()
         val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         LoginController.registerModel(userViewModel)
 
@@ -49,6 +41,15 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_LoginFragment_to_DashboardFragment)
             }
         })
+
+        setHasOptionsMenu(true);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.invalidateOptionsMenu()
 
         view.findViewById<Button>(R.id.button_login).setOnClickListener {
             val inputName = editInputUsername.text.toString()
