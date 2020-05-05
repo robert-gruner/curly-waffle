@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import kotlinx.android.synthetic.main.activity_note_details.*
 
 class NoteDetailsActivity : AppCompatActivity() {
     private lateinit var editText: EditText
@@ -18,6 +19,7 @@ class NoteDetailsActivity : AppCompatActivity() {
 
         editText = findViewById(R.id.noteInput)
         noteDetailsActivityListener = NoteDetailsActivityListener(this, editText)
+        deleteNotePhoto.setOnClickListener(noteDetailsActivityListener)
         editText.setText(noteDetailsActivityListener.readNoteContent())
     }
 

@@ -9,8 +9,8 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
-import android.widget.EditText
-import android.widget.ImageView
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
@@ -24,7 +24,8 @@ class NoteDetailsActivityListener(
     val activity: AppCompatActivity,
     val textInput: EditText
 ) : MenuItem.OnMenuItemClickListener,
-    DialogInterface.OnClickListener {
+    DialogInterface.OnClickListener,
+    View.OnClickListener {
     private var fileName: String = activity.getString(R.string.noteFileName)
     private lateinit var currentPhotoPath: String
 
@@ -38,7 +39,6 @@ class NoteDetailsActivityListener(
             R.id.deleteNote -> showDeletionDialog()
             R.id.shareNote -> startShareNote()
             R.id.attachPhoto -> takePicture()
-            R.id.attachedNotePhoto -> removePhoto()
             else -> {
                 NavUtils.navigateUpFromSameTask(activity)
             }
@@ -49,6 +49,12 @@ class NoteDetailsActivityListener(
     override fun onClick(dialog: DialogInterface?, which: Int) {
         when(which) {
             DialogInterface.BUTTON_POSITIVE -> deleteNoteContent()
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.deleteNotePhoto -> removePhoto()
         }
     }
 
@@ -77,6 +83,19 @@ class NoteDetailsActivityListener(
         }
     }
 
+    fun checkForImage() {
+        val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        storageDir?.listFiles().let {
+            if (it?.isNotEmpty()!!) {
+                Log.d(NoteDetailsActivityListener::class.java.simpleName, "Setting photo path ${it?.last()?.path}")
+                currentPhotoPath = it.last()?.path.toString()
+                setImage()
+                activity.findViewById<ImageButton>(R.id.deleteNotePhoto).visibility = View.VISIBLE
+            }
+        }
+
+    }
+
     fun readNoteContent(): String {
         val file = File(activity.filesDir, fileName)
         return if (file.exists()) {
@@ -88,7 +107,17 @@ class NoteDetailsActivityListener(
     }
 
     private fun removePhoto() {
-        TODO("Not yet implemented")
+        val file = File(currentPhotoPath)
+        Log.d(NoteDetailsActivityListener::class.java.simpleName, "Deleting photo at path $currentPhotoPath")
+        file.delete()
+        restoreImageView()
+    }
+
+    private fun restoreImageView() {
+        activity
+            .findViewById<ImageView>(R.id.attachedNotePhoto)
+            .setImageResource(R.mipmap.ic_launcher_round)
+        activity.findViewById<ImageButton>(R.id.deleteNotePhoto).visibility = View.GONE
     }
 
     private fun takePicture() {
@@ -167,15 +196,4 @@ class NoteDetailsActivityListener(
         }
     }
 
-    fun checkForImage() {
-        val storageDir: File? = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        storageDir?.listFiles().let {
-            if (it?.isNotEmpty()!!) {
-                Log.d(NoteDetailsActivityListener::class.java.simpleName, "Setting photo path ${it?.last()?.path}")
-                currentPhotoPath = it.last()?.path.toString()
-                setImage()
-            }
-        }
-
-    }
 }
